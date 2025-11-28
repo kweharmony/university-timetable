@@ -1,0 +1,30 @@
+# Файлы с секретами
+password.txt
+.env
+.env.local
+.env.*.local
+
+# Зависимости
+node_modules/
+
+# Сборка
+dist/
+build/
+
+# Логи
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Кэш
+.cache/
+*.cache
