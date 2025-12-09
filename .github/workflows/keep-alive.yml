@@ -2,8 +2,8 @@ name: Keep Supabase Alive
 
 on:
   schedule:
-    # Запускать каждые 5 дней в 12:00 UTC
-    - cron: '0 12 */5 * *'
+    # Запускать каждый день в 12:00 UTC (гарантирует отсутствие заморозки)
+    - cron: "0 12 * * *"
   workflow_dispatch: # Можно запустить вручную
 
 jobs:
@@ -12,8 +12,20 @@ jobs:
     steps:
       - name: Ping Supabase
         run: |
-          curl -X GET \
+          response=$(curl -s -w "\n%{http_code}" -X GET \
             "${{ secrets.VITE_SUPABASE_URL }}/rest/v1/homework?select=id&limit=1" \
             -H "apikey: ${{ secrets.VITE_SUPABASE_ANON_KEY }}" \
-            -H "Content-Type: application/json"
+            -H "Content-Type: application/json" \
+            -H "Prefer: count=exact")
 
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | head -n-1)
+
+          if [ "$http_code" -eq 200 ] || [ "$http_code" -eq 206 ]; then
+            echo "✅ Supabase ping successful (HTTP $http_code)"
+            echo "Response: $body"
+          else
+            echo "❌ Supabase ping failed (HTTP $http_code)"
+            echo "Response: $body"
+            exit 1
+          fi
