@@ -212,14 +212,25 @@ function AdminPage() {
               {user.email}
             </p>
           </div>
-          
-          <button
-            onClick={handleLogout}
-            className="btn-secondary flex items-center gap-2"
-          >
-            <span className="material-icons text-xl">logout</span>
-            Выйти
-          </button>
+
+          <div className="flex items-center gap-3">
+            <a
+              href="https://disk.yandex.ru/d/UDySkV8ySZalJA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary flex items-center gap-2"
+            >
+              <span className="material-icons text-xl">folder_open</span>
+              Материалы
+            </a>
+            <button
+              onClick={handleLogout}
+              className="btn-secondary flex items-center gap-2"
+            >
+              <span className="material-icons text-xl">logout</span>
+              Выйти
+            </button>
+          </div>
         </header>
 
         {/* Основной контент */}

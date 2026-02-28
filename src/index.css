@@ -88,17 +88,4 @@
   @apply bg-gray-200 dark:bg-dark-border animate-pulse rounded;
 }
 
-/* Toast уведомления */
-.toast {
-  @apply fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg z-50;
-  @apply animate-slide-up;
-}
-
-.toast-success {
-  @apply bg-green-500 text-white;
-}
-
-.toast-error {
-  @apply bg-red-500 text-white;
-}
 
