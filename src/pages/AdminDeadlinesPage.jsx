@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import LoginForm from '../components/LoginForm'
 import Toast from '../components/Toast'
 import { signIn, signOut, getSession, onAuthStateChange } from '../lib/auth'
-import { getDeadlines, updateDeadline, addDeadline, deleteDeadline, INITIAL_DEADLINES } from '../lib/deadlines'
+import { getDeadlines, updateDeadline, deleteDeadline } from '../lib/deadlines'
 
 function AdminDeadlinesPage() {
   const [user, setUser] = useState(null)
@@ -61,17 +61,6 @@ function AdminDeadlinesPage() {
     setUser(null)
     setDeadlines([])
     showToast('Вы вышли из системы')
-  }
-
-  // Заполнить начальными данными
-  const handleSeedData = async () => {
-    if (!window.confirm('Заполнить таблицу начальными дедлайнами? Существующие данные не будут затронуты.')) return
-
-    for (const d of INITIAL_DEADLINES) {
-      await addDeadline(d)
-    }
-    await loadDeadlines()
-    showToast('Дедлайны добавлены')
   }
 
   // Начать редактирование
@@ -160,10 +149,6 @@ function AdminDeadlinesPage() {
               <span className="material-icons text-xl">assignment</span>
               ДЗ
             </a>
-            <button onClick={handleSeedData} className="btn-secondary flex items-center gap-2">
-              <span className="material-icons text-xl">playlist_add</span>
-              Заполнить
-            </button>
             <button onClick={handleLogout} className="btn-secondary flex items-center gap-2">
               <span className="material-icons text-xl">logout</span>
               Выйти
@@ -186,10 +171,7 @@ function AdminDeadlinesPage() {
         ) : deadlines.length === 0 ? (
           <div className="card p-12 text-center">
             <span className="material-icons text-5xl text-gray-300 dark:text-gray-600 mb-4 block">event_busy</span>
-            <p className="text-gray-500 dark:text-gray-400 mb-4">Дедлайнов пока нет</p>
-            <button onClick={handleSeedData} className="btn-primary">
-              Заполнить начальными данными
-            </button>
+            <p className="text-gray-500 dark:text-gray-400">Дедлайнов пока нет</p>
           </div>
         ) : (
           <div className="space-y-6">
