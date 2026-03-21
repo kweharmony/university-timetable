@@ -6,7 +6,9 @@
 
 - 📅 Удобный календарь с выбором года, месяца и дня
 - 📝 Просмотр домашних заданий для студентов
-- 🔐 Панель администратора для управления заданиями
+- ⏰ Дедлайны лабораторных работ с обратным отсчётом и прогресс-барами
+- ⚠️ Предупреждения о скорых дедлайнах (≤5 дней)
+- 🔐 Панель администратора для управления заданиями и дедлайнами
 - 🌓 Светлая и тёмная темы
 - 📱 Адаптивный дизайн (Desktop, Tablet, Mobile)
 - ⚡ Быстрая загрузка и плавные анимации
@@ -89,6 +91,32 @@ USING (true);
 CREATE POLICY "Только админ может редактировать" ON homework
 FOR UPDATE TO authenticated
 USING (true);
+
+-- Создаём таблицу дедлайнов
+CREATE TABLE deadlines (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  subject TEXT NOT NULL,
+  lab_number INTEGER NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX idx_deadlines_end_date ON deadlines(end_date);
+
+ALTER TABLE deadlines ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Публичное чтение дедлайнов" ON deadlines
+FOR SELECT TO anon, authenticated USING (true);
+
+CREATE POLICY "Только админ может добавлять дедлайны" ON deadlines
+FOR INSERT TO authenticated WITH CHECK (true);
+
+CREATE POLICY "Только админ может удалять дедлайны" ON deadlines
+FOR DELETE TO authenticated USING (true);
+
+CREATE POLICY "Только админ может редактировать дедлайны" ON deadlines
+FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
 ```
 
 ### 5. Создание администратора
@@ -162,11 +190,14 @@ src/
 │   └── Toast.jsx              # Уведомления
 ├── pages/
 │   ├── HomePage.jsx           # Публичная страница
-│   └── AdminPage.jsx          # Панель администратора
+│   ├── AdminPage.jsx          # Панель администратора
+│   ├── DeadlinesPage.jsx      # Страница дедлайнов
+│   └── AdminDeadlinesPage.jsx # Управление дедлайнами
 ├── lib/
 │   ├── supabaseClient.js      # Клиент Supabase
 │   ├── auth.js                # Функции авторизации
-│   └── homework.js            # CRUD операции с ДЗ
+│   ├── homework.js            # CRUD операции с ДЗ
+│   └── deadlines.js           # CRUD операции с дедлайнами
 ├── contexts/
 │   └── ThemeContext.jsx       # Контекст темы
 ├── App.jsx                    # Главный компонент
