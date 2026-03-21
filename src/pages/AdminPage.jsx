@@ -213,7 +213,14 @@ function AdminPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap justify-center">
+            <a
+              href="#/admin/deadlines"
+              className="btn-secondary flex items-center gap-2"
+            >
+              <span className="material-icons text-xl">timer</span>
+              Дедлайны
+            </a>
             <a
               href="https://disk.yandex.ru/d/UDySkV8ySZalJA"
               target="_blank"

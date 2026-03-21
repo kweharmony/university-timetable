@@ -76,6 +76,47 @@ USING (true)
 WITH CHECK (true);
 
 -- ============================================
+-- Таблица: deadlines
+-- Хранит дедлайны лабораторных работ
+-- ============================================
+CREATE TABLE IF NOT EXISTS deadlines (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  subject TEXT NOT NULL,
+  lab_number INTEGER NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+COMMENT ON TABLE deadlines IS 'Таблица дедлайнов лабораторных работ';
+COMMENT ON COLUMN deadlines.subject IS 'Название предмета (ИТиП, СиАОД, DevOps)';
+COMMENT ON COLUMN deadlines.lab_number IS 'Номер лабораторной работы';
+COMMENT ON COLUMN deadlines.start_date IS 'Дата начала (выдачи)';
+COMMENT ON COLUMN deadlines.end_date IS 'Дата дедлайна (сдачи)';
+
+CREATE INDEX IF NOT EXISTS idx_deadlines_end_date ON deadlines(end_date);
+CREATE INDEX IF NOT EXISTS idx_deadlines_subject ON deadlines(subject);
+
+ALTER TABLE deadlines ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Публичное чтение дедлайнов" ON deadlines;
+DROP POLICY IF EXISTS "Только админ может добавлять дедлайны" ON deadlines;
+DROP POLICY IF EXISTS "Только админ может удалять дедлайны" ON deadlines;
+DROP POLICY IF EXISTS "Только админ может редактировать дедлайны" ON deadlines;
+
+CREATE POLICY "Публичное чтение дедлайнов" ON deadlines
+FOR SELECT TO anon, authenticated USING (true);
+
+CREATE POLICY "Только админ может добавлять дедлайны" ON deadlines
+FOR INSERT TO authenticated WITH CHECK (true);
+
+CREATE POLICY "Только админ может удалять дедлайны" ON deadlines
+FOR DELETE TO authenticated USING (true);
+
+CREATE POLICY "Только админ может редактировать дедлайны" ON deadlines
+FOR UPDATE TO authenticated USING (true) WITH CHECK (true);
+
+-- ============================================
 -- Тестовые данные (опционально)
 -- ============================================
 

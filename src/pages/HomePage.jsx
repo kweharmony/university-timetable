@@ -55,15 +55,24 @@ function HomePage() {
           <p className="text-gray-500 dark:text-gray-400 mb-4">
             Выберите дату, чтобы посмотреть задания
           </p>
-          <a
-            href="https://disk.yandex.ru/d/UDySkV8ySZalJA"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-primary-accent bg-primary-accent/10 hover:bg-primary-accent/20 dark:text-primary-accent dark:bg-primary-accent/10 dark:hover:bg-primary-accent/20 transition-colors"
-          >
-            <span className="material-icons text-lg">folder_open</span>
-            Материалы курса
-          </a>
+          <div className="flex items-center gap-3 justify-center flex-wrap">
+            <a
+              href="https://disk.yandex.ru/d/UDySkV8ySZalJA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-primary-accent bg-primary-accent/10 hover:bg-primary-accent/20 dark:text-primary-accent dark:bg-primary-accent/10 dark:hover:bg-primary-accent/20 transition-colors"
+            >
+              <span className="material-icons text-lg">folder_open</span>
+              Материалы курса
+            </a>
+            <a
+              href="#/deadlines"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-primary-accent bg-primary-accent/10 hover:bg-primary-accent/20 dark:text-primary-accent dark:bg-primary-accent/10 dark:hover:bg-primary-accent/20 transition-colors"
+            >
+              <span className="material-icons text-lg">timer</span>
+              Дедлайны
+            </a>
+          </div>
         </header>
 
         {/* Основной контент */}
